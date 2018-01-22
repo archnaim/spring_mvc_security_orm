@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" th:src="@{/css/login.css}"
+          href="../../css/login.css" />
+
+</head>
+<body>
+
+<script src="https://use.typekit.net/ayg4pcz.js"></script>
+<script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+<div class="container">
+    <h1 class="welcome text-center">Welcome to <br></br> Ice Code</h1>
+    <div class="card card-container">
+        <h2 class='login_title text-center'>Login</h2>
+        <hr></hr>
+        <h3 th:if="${param.error}">
+            Invalid username and password.
+        </h3>
+        <h3 th:if="${param.logout}">
+            You have been logged out.
+        </h3>
+
+        <form class="form-signin" th:action="@{/login}" method="post">
+            <span id="reauth-email" class="reauth-email"></span>
+            <p class="input_title">Email</p>
+            <input type="text" name="username" class="login_box" placeholder="user01@IceCode.com"/>
+            <p class="input_title">Password</p>
+            <input type="password" name="password" class="login_box" placeholder="******"/>
+
+            <button class="btn btn-lg btn-primary" type="submit">Login</button>
+        </form><!-- /form -->
+    </div><!-- /card-container -->
+</div><!-- /container -->
+<!-- /.container -->
+
+<script type="text/javascript"
+        src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
