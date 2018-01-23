@@ -19,20 +19,22 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Autowired
     private MyUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/restricted/**").access("hasRole('ROLE_ADMIN')")
+        http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .and()
-                .formLogin().loginPage("/login").failureUrl("/login?error")
+                .authorizeRequests().antMatchers("/home/**").access("hasRole('ROLE_USER')")
+                .and()
+                .formLogin().loginPage("/login")
                 .usernameParameter("username").passwordParameter("password")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
-                .exceptionHandling().accessDeniedPage("/403")
+                .exceptionHandling().accessDeniedPage("/403.html")
                 .and()
                 .csrf();
     }

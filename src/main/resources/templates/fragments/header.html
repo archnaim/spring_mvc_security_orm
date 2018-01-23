@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" th:src="@{/css/main.css}"
+          href="../../css/main.css" />
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-top" th:fragment="header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">My project</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" th:href="@{/}">Home</a>
+                </li>
+                <li>
+                    <a href="#" th:href="@{/admin}">admin</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"/>&nbsp;
+                        <span sec:authentication="name"/>
+                    </a>
+                </li>
+                <li sec:authorize="!hasRole('ADMIN') and !hasRole('USER')">
+                    <a href="/signin" th:href="@{/login}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Log in
+                    </a>
+                </li>
+                <li sec:authorize="hasRole('ADMIN') or hasRole('USER')">
+                    <a onclick="document.getElementById('form').submit();" style="cursor: pointer">
+                        <form id="form" method="POST" th:action="@{/logout}">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                        </form>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login Page</title>
+    <title>Register Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" type="text/css"
@@ -19,29 +19,26 @@
 <div class="container">
     <h1 class="welcome text-center">Welcome</h1>
     <div class="card card-container">
-        <h2 class='login_title text-center'>Login</h2>
+        <h2 class='login_title text-center'>Register</h2>
         <hr></hr>
         <h3 th:if="${param.error}">
-            Invalid username and password.
-        </h3>
-        <h3 th:if="${param.logout}">
-            You have been logged out.
-        </h3>
-        <h3 th:if="${param.registered}">
-            Please login with the registered account
+            Username is already taken.
         </h3>
 
-        <form class="form-signin" th:action="@{/login}" method="post">
+        <form class="form-signin" th:action="@{/register}" method="post">
             <span id="reauth-email" class="reauth-email"></span>
-            <p class="input_title">username</p>
-            <input type="text" name="username" class="login_box" placeholder="user"/>
+            <p class="input_title">Username</p>
+            <input type="text" name="username" class="login_box" placeholder="user01"/>
             <p class="input_title">Password</p>
             <input type="password" name="password" class="login_box" placeholder="******"/>
+            <p class="input_title">Email</p>
+            <input type="email" name="email" class="login_box" placeholder="test@gmail.com"/>
 
-            <button class="btn btn-lg btn-primary" type="submit">Login</button>
+            <button class="btn btn-lg btn-primary" type="submit">Register</button>
+            <button class="btn btn-lg btn-danger" type="reset">Clear</button>
         </form><!-- /form -->
-        <a th:href="@{/register}">
-            Don't have an Account?
+        <a th:href="@{/login}">
+            Have an Account already?
         </a>
     </div><!-- /card-container -->
 </div><!-- /container -->
