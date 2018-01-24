@@ -7,6 +7,8 @@ import com.javabootcamp.spring_boot.repository.RoleRepository;
 import com.javabootcamp.spring_boot.repository.UserRepository;
 import com.javabootcamp.spring_boot.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +43,14 @@ public class Register {
                                    @RequestParam("email") String email, Model model) {
 
         User user = userRepository.findByUsername(username);
-
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
         if(user != null)
         {
             model.addAttribute("error","username is already registered");
             return "redirect:/register?error";
         }
         else {
-            user = new User(username,passsword,email);
+            user = new User(username,encoder.encode(passsword),email);
             userRepository.save(user);
 
             Role role = roleRepository.findByRoleName("ROLE_USER");

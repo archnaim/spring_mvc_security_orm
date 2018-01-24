@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -43,4 +44,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return userDetails;
     }
+
+
 }
