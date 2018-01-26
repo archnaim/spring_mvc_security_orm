@@ -17,11 +17,90 @@
 
 <div th:replace="fragments/header :: header"></div>
 
+<div class="modal-backdrop in" th:if="${param.purchased} or ${param.error}"></div>
+
+<div class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="channelModal" style="display:block;" th:if="${param.purchased} or ${param.error}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="channelModal1" th:if="${param.purchased}">Success!</h4>
+                <h4 class="modal-title" id="channelModal2" th:if="${param.error}">ERROR!</h4>
+            </div>
+            <div class="modal-body" th:if="${param.purchased}">
+                The item will be in the cart.
+            </div>
+            <div class="modal-body" th:if="${param.error}">
+                The item is already in the cart.
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" onclick = "$('.modal').hide();$('.modal-backdrop').hide()">Close</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Page Content -->
 <div class="container">
 
-    <div class="starter-template">
-        <h1>Spring Boot Web Thymeleaf Example</h1>
+    <div class="row">
+
+        <div class="col-lg-3">
+
+            <h1 class="my-4">Categories</h1>
+            <div class="list-group" >
+                <a href="#" class="list-group-item">ALL</a>
+                <th:block th:each="category: ${categories}">
+                    <a th:href="@{'/home?type='+${category}}" class="list-group-item" th:text="${category}">category</a>
+                </th:block>
+            </div>
+
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-lg-9">
+
+            <div class="row">
+                <th:block th:each="product: ${products}">
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        <div class="card card-inverse card-info">
+                            <img class="card-img-top" src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif"/>
+                            <div class="card-block">
+                                <h4 class="card-title" th:text="${#strings.abbreviate(product.name,10)}">name</h4>
+                                <small>
+                                <div class="card-text" th:text="${#strings.abbreviate(product.description,20)}">
+                                    desc
+                                </div>
+                                </small>
+                            </div>
+                            <div class="card-footer ">
+                                <div class="row">
+                                    <div class="col-sm-7 text-left">
+                                        <small><h5 th:text="${product.price}">
+                                            $
+                                        </h5></small>
+                                    </div>
+                                    <form th:action="@{/cart}" method="post">
+                                        <input type="hidden" name="productId" th:value="${product.productId}"/>
+                                        <button type="submit" class="btn btn-info btn-sm text-right">Buy</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </th:block>
+
+            </div>
+             <!--/.row -->
+
+        </div>
+        <!-- /.col-lg-9 -->
+
     </div>
+    <!-- /.row -->
 
 </div>
 <!-- /.container -->

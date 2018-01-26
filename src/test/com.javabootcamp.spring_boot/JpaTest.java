@@ -1,11 +1,7 @@
 package com.javabootcamp.spring_boot;
 
-import com.javabootcamp.spring_boot.model.Role;
-import com.javabootcamp.spring_boot.model.User;
-import com.javabootcamp.spring_boot.model.UserRole;
-import com.javabootcamp.spring_boot.repository.RoleRepository;
-import com.javabootcamp.spring_boot.repository.UserRepository;
-import com.javabootcamp.spring_boot.repository.UserRoleRepository;
+import com.javabootcamp.spring_boot.model.*;
+import com.javabootcamp.spring_boot.repository.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -30,6 +27,12 @@ public class JpaTest {
 
     @Autowired
     private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Test
     public void testUserRepo()
@@ -58,4 +61,22 @@ public class JpaTest {
         Assert.assertEquals("ROLE_ADMIN",userRoleRepository.findRoleByUsername("user"));
 
     }
+
+    @Test
+    public void testProductRepo()
+    {
+        Product product = new Product("Product1",100,"desc1",10,"type1");
+        productRepository.save(product);
+
+        User user = userRepository.findByUsername("admin");
+
+        cartRepository.save(new Cart(user,product));
+
+        List<Product> products = productRepository.findProductsInCartByUsername("admin");
+
+        Assert.assertEquals(product,products.get(0));
+
+    }
+
+
 }
