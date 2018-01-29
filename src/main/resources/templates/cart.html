@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" type="text/css"
+          href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css" />
+
+    <script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="modal-backdrop in" th:if="${param.purchased} or ${param.error}"></div>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!--TODO:Cart page-->
+    <div class="row">
+        <div class="col-lg-8">
+            <hr/>
+            <th:block th:each="cart: ${carts}">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif" alt="cart image" style="width:60px"/>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <h4><small>Name </small></h4>
+                                        <h4 class="media-heading" th:text="${cart.product.name}">Product Title</h4>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h4><small>Type </small></h4>
+                                        <h4 class="media-heading" th:text="${cart.product.type}">Product Type</h4>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h4><small>Price </small></h4>
+                                        <h4 class="media-heading strikethrough" th:text="${cart.product.price}">Product Price</h4>
+                                        <h4 class="media-heading" th:text="${(100-cart.product.discount) * cart.product.price/100}">Product Final Price</h4>
+                                    </div>
+                                </div>
+
+                                <p th:text="${cart.product.description}">Product Description</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <a th:onclick="'document.getElementById(\'delCart-' + ${cart.id} + '\').submit();'" style="cursor: pointer">
+                            <form th:id="'delCart-'+${cart.id}" method="POST" th:action="@{/delcart}">
+                                <input type="hidden" name="id" th:value="${cart.id}"/>
+                                <div class="glyphicon glyphicon-remove"  aria-hidden="true" style="color:red"/>
+                            </form>
+                        </a>
+
+                    </div>
+                </div>
+
+
+                <hr/>
+            </th:block>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">Summary</div>
+                <div class="panel-body">
+                    <b>Total Price</b>
+                    <p class="text-center" th:text="${total}"></p>
+                    <b>You save</b>
+                    <p class="text-center" th:text="${save}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<!-- /.container -->
+
+<script type="text/javascript"
+        src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

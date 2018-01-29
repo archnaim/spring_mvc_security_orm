@@ -1,5 +1,7 @@
 package com.javabootcamp.spring_boot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,6 +28,7 @@ public class Cart {
         this.id = id;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }

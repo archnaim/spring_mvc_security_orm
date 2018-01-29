@@ -14,4 +14,7 @@ public interface CartRepository extends CrudRepository<Cart,Long> {
     @Query("select b from User a, Cart b where a.username=?1 and a.userId = b.user.userId and b.product.productId = ?2")
     Optional<Cart> getByUsernameAndProductId(String username, Long ProductId);
 
+    @Query("select b from User a, Cart b where a.username=?1 and a.userId = b.user.userId")
+    List<Cart> getByUsername(String username);
+
 }

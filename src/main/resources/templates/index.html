@@ -51,7 +51,7 @@
 
             <h1 class="my-4">Categories</h1>
             <div class="list-group" >
-                <a href="#" class="list-group-item">ALL</a>
+                <a th:href="@{/home}" class="list-group-item">ALL</a>
                 <th:block th:each="category: ${categories}">
                     <a th:href="@{'/home?type='+${category}}" class="list-group-item" th:text="${category}">category</a>
                 </th:block>
@@ -64,7 +64,7 @@
 
             <div class="row">
                 <th:block th:each="product: ${products}">
-                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                    <div class="col-sm-6 col-md-4 col-lg-3 mt-4" style="padding-bottom:30px">
                         <div class="card card-inverse card-info">
                             <img class="card-img-top" src="http://success-at-work.com/wp-content/uploads/2015/04/free-stock-photos.gif"/>
                             <div class="card-block">
