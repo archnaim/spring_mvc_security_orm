@@ -77,15 +77,22 @@
                             </div>
                             <div class="card-footer ">
                                 <div class="row">
-                                    <div class="col-sm-7 text-left">
-                                        <small><h5 th:text="${product.price}">
+                                    <div class="col-sm-5 text-left">
+                                        $<small><h5 th:text="${product.price}">
                                             $
                                         </h5></small>
                                     </div>
-                                    <form th:action="@{/cart}" method="post">
-                                        <input type="hidden" name="productId" th:value="${product.productId}"/>
-                                        <button type="submit" class="btn btn-info btn-sm text-right">Buy</button>
-                                    </form>
+                                    <div class="col-sm-2 text-left">
+                                        <small><h6 th:text="${product.discount}">
+                                            discount
+                                        </h6></small>% off
+                                    </div>
+                                    <div class="col-sm-5 text-right">
+                                        <form th:action="@{/cart}" method="post">
+                                            <input type="hidden" name="productId" th:value="${product.productId}"/>
+                                            <button type="submit" class="btn btn-info btn-sm text-right">Buy</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +103,31 @@
             </div>
              <!--/.row -->
 
+            <div class="table-pagination text-center">
+                <ul class="pagination pagination-centered">
+                    <li th:class="${products.number eq 0} ? 'disabled' : ''">
+                        <a th:if="${not products.first}" th:href="@{${'/home'}(page=${products.number},size=${products.size})}">Previous</a>
+                        <a th:if="${products.first}" href="javascript:void(0);">Previous</a>
+                    </li>
+
+                    <li th:each="pageNo : ${#numbers.sequence(1, products.totalPages)}" th:class="${products.number eq pageNo-1}? 'active' : ''">
+                        <th:block th:if="${products.number &lt; pageNo+ 2 and products.number &gt; pageNo- 4}">
+                            <a th:if="${products.number  eq pageNo-1}" href="javascript:void(0);">
+                                <span th:text="${pageNo}"></span>
+                            </a>
+                            <a th:if="${not (products.number  eq pageNo-1)}" th:href="@{${'/home'}(page=${pageNo},size=${products.size})}">
+                                <span th:text="${pageNo}"></span>
+                            </a>
+                        </th:block>
+
+
+                    </li>
+                    <li th:class="${products.number ge products.totalPages} ? 'disabled' : ''">
+                        <a th:if="${not products.last}" th:href="@{${'/home'}(page=${products.number+2},size=${products.size})}">Next</a>
+                        <a th:if="${products.last}" href="javascript:void(0);">Next</a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <!-- /.col-lg-9 -->
 

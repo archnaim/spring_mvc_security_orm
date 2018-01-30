@@ -9,11 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 
 @Controller
+//@RestController
 public class Home {
 
     @Autowired
@@ -27,16 +28,28 @@ public class Home {
 
 
     @RequestMapping("/home")
-    public String getHomePage(@RequestParam(value = "page",defaultValue = "0",required = false) Integer page,Model model)
+    public String getHomePage(@RequestParam(value = "page",defaultValue = "1",required = false) Integer page,Model model)
     {
         List<String> categories = productRepository.findDistinctCategories();
-        Iterable<Product> products = productRepository.findAll(new PageRequest(page, Constant.MAX_ITEMS_PER_PAGE));
+        Iterable<Product> products = productRepository.findAll(new PageRequest(page-1, Constant.MAX_ITEMS_PER_PAGE));
 
         model.addAttribute("products",products);
         model.addAttribute("categories",categories);
 
         return "index";
     }
+
+//    @RequestMapping("/home")
+//    public Iterable<Product> getHomePage(@RequestParam(value = "page",defaultValue = "0",required = false) Integer page, Model model)
+//    {
+//        List<String> categories = productRepository.findDistinctCategories();
+//        Iterable<Product> products = productRepository.findAll(new PageRequest(page, Constant.MAX_ITEMS_PER_PAGE));
+//
+//        model.addAttribute("products",products);
+//        model.addAttribute("categories",categories);
+//
+//        return products;
+//    }
 
     @RequestMapping(value = "/home",params = {"type"})
     public String getHomePage(@RequestParam(value = "type") String type,
