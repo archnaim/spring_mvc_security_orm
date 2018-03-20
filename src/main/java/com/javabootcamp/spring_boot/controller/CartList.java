@@ -5,6 +5,7 @@ import com.javabootcamp.spring_boot.model.Product;
 import com.javabootcamp.spring_boot.repository.CartRepository;
 import com.javabootcamp.spring_boot.repository.ProductRepository;
 import com.javabootcamp.spring_boot.service.AddNewCart;
+import org.omg.CORBA.BAD_PARAM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -82,7 +83,7 @@ public class CartList {
     {
         //TODO: get Cart
         System.out.println("Deleted Cart id ="+id);
-        cartRepository.delete(id);
+        cartRepository.delete(cartRepository.findById(id).orElseThrow(BAD_PARAM::new));
         List<Cart> carts = cartRepository.getByUsername(principal.getName());
         model.addAttribute("carts",carts);
 

@@ -24,7 +24,7 @@ public class AddNewCart {
     public void add(String username, Long productId)
     {
         User user = userRepository.findByUsername(username);
-        Product product = productRepository.findOne(productId);
+        Product product = productRepository.findById(productId).orElse(new Product());
 
         Cart cart = new Cart(user,product);
 
